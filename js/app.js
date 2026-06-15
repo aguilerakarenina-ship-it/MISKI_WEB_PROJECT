@@ -699,12 +699,6 @@ function generarBoleta() {
       <div class="boleta-row"><span style="color:var(--text-muted)">${fmt(horas)} h × Bs.${fmt(aux.valor_hora)}</span><span>Bs.${fmt(bruto)}</span></div>
     </div>
 
-    <div class="boleta-section" style="background:#FFF8EE">
-      <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--amber-mid);margin-bottom:8px">Desglose de financiamiento</div>
-      <div class="boleta-row"><span style="color:var(--text-muted)">REVIBO (80%)</span><span style="color:var(--green-dark);font-weight:500">Bs.${fmt(empresa)}</span></div>
-      <div class="boleta-row"><span style="color:var(--text-muted)">Usuario (20%)</span><span style="color:var(--red-mid);font-weight:500">Bs.${fmt(centro)}</span></div>
-    </div>
-
     <div class="boleta-total-bar">
       <div class="boleta-row"><span style="color:var(--text-muted);font-size:13px">Total</span><span style="font-weight:500">Bs.${fmt(bruto)}</span></div>
      
