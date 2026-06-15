@@ -1428,6 +1428,8 @@ function tickClock() {
   if (horaEl && !horaEl._touched) horaEl.value = s;
 }
 document.addEventListener('DOMContentLoaded', async () => {
+  await AUTH.init();
+
   const ok = await DB.hydrate();
   if (ok) {
     showToast('Conectado a Supabase', 'success');
