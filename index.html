@@ -7,7 +7,37 @@
   <link rel="stylesheet" href="css/app.css">
 </head>
 <body>
-<div class="layout">
+<!-- ── Login overlay ──────────────────────────────── -->
+<div id="login-overlay" class="login-overlay">
+  <div class="login-card">
+    <div class="login-brand">
+      <div class="brand-icon">
+        <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+      </div>
+      <div>
+        <div class="brand-name">MISKI</div>
+        <div class="brand-sub">Asociación REVIBO</div>
+      </div>
+    </div>
+    <h1 class="login-title">Acceso administrador</h1>
+    <p class="login-subtitle">Ingresa con tu cuenta autorizada para gestionar el sistema.</p>
+    <form id="login-form">
+      <div class="form-group">
+        <label class="form-label">Usuario</label>
+        <input type="text" class="form-control" id="login-email" autocomplete="username" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Contraseña</label>
+        <input type="password" class="form-control" id="login-password" autocomplete="current-password" required>
+      </div>
+      <div id="login-error" class="login-error" style="display:none"></div>
+      <button type="submit" class="btn btn-primary" id="login-submit" style="width:100%;justify-content:center;margin-top:8px">
+        Iniciar sesión
+      </button>
+    </form>
+  </div>
+</div>
+<div class="layout" id="app-layout" style="display:none">
 
   <!-- ── Sidebar ────────────────────────────────── -->
   <aside class="sidebar">
@@ -72,14 +102,16 @@
       </a>
     </nav>
 
-    <div class="sidebar-footer">
-      <div class="user-avatar">MA</div>
-      <div>
-        <div class="user-name">M. Administrador</div>
-        <div class="user-role">Admin del centro</div>
+<div class="sidebar-footer">
+      <div class="user-avatar" id="sidebar-user-avatar">AD</div>
+      <div style="flex:1;min-width:0">
+        <div class="user-name" id="sidebar-user-name" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Administrador/a</div>
+        <div class="user-role">REVIBO</div>
       </div>
+      <button class="btn btn-sm btn-secondary" id="logout-btn" title="Cerrar sesión" onclick="AUTH.signOut()" style="flex-shrink:0;padding:6px 8px">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+      </button>
     </div>
-  </aside>
 
   <!-- ── Main ───────────────────────────────────── -->
   <div class="main">
@@ -813,6 +845,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="js/supabase-config.js"></script>
+<script src="js/auth.js"></script>
 <script src="js/app.js"></script>
 <script>
   // Set today's date in topbar
