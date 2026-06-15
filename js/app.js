@@ -683,7 +683,7 @@ function generarBoleta() {
         <div style="font-size:16px;font-weight:600">${esc(aux.nombre)}</div>
         <div style="font-size:12px;color:var(--text-muted)">Asistente · C.I. ${esc(aux.rut || aux.ci || '—')}</div>
       </div>
-      <span class="badge badge-sub">Subvencionado REVIBO</span>
+     
     </div>
 
     <div class="boleta-section">
