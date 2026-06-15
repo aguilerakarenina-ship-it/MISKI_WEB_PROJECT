@@ -20,19 +20,17 @@ const AUTH = {
   session: null,
 
   // Muestra la pantalla de login y oculta la app
+// Muestra la pantalla de login
   showLogin() {
     const overlay = document.getElementById('login-overlay');
-    const layout  = document.getElementById('app-layout');
     if (overlay) overlay.style.display = 'flex';
-    if (layout)  layout.style.display  = 'none';
   },
 
   // Oculta la pantalla de login y muestra la app
+  // Oculta la pantalla de login
   showApp() {
     const overlay = document.getElementById('login-overlay');
-    const layout  = document.getElementById('app-layout');
     if (overlay) overlay.style.display = 'none';
-    if (layout)  layout.style.display  = 'flex';
 
     const nameEl = document.getElementById('sidebar-user-name');
     const avatarEl = document.getElementById('sidebar-user-avatar');
