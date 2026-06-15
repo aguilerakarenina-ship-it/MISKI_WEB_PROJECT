@@ -32,7 +32,7 @@ const AUTH = {
     const overlay = document.getElementById('login-overlay');
     const layout  = document.getElementById('app-layout');
     if (overlay) overlay.style.display = 'none';
-    if (layout)  layout.style.display  = '';
+    if (layout)  layout.style.display  = 'flex';
 
     const nameEl = document.getElementById('sidebar-user-name');
     const avatarEl = document.getElementById('sidebar-user-avatar');
