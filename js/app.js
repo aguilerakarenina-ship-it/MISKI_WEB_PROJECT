@@ -595,8 +595,8 @@ function renderPagos() {
   const rows = auxs.map(aux => {
     const regs = asisM.filter(a => a.aux_id === aux.id && a.horas);
     const horas = regs.reduce((s,r) => s + (r.horas || 0), 0);
-    const bruto = Math.round(horas * aux.valor_hora);
-    const empresa = Math.round(bruto * 0.8);
+    const bruto = (horas * aux.valor_hora);
+    const empresa = bruto * 0.8;
     const centro  = bruto - empresa;
     totalBruto   += bruto;
     totalEmpresa += empresa;
@@ -608,8 +608,8 @@ function renderPagos() {
   $('#pay-total-bruto').textContent  = 'Bs.' + fmt(totalBruto);
   $('#pay-total-empresa').textContent = 'Bs.' + fmt(totalEmpresa);
   $('#pay-total-centro').textContent  = 'Bs.' + fmt(totalCentro);
-  $('#pay-total-horas').textContent   = Math.round(totalHoras) + 'h';
-
+ // $('#pay-total-horas').textContent   = Math.round(totalHoras) + 'h';
+  $('#pay-total-horas').textContent   = fmtHoras(totalHoras);
   const tbody = $('#pagos-tbody');
   if (!tbody) return;
   tbody.innerHTML = rows.map(r => `<tr>
@@ -618,7 +618,7 @@ function renderPagos() {
       <div><div class="td-main">${esc(r.aux.nombre)}</div>
       <span class="badge badge-sub">Subvencionado REVIBO</span></div>
     </div></td>
-    <td>${Math.round(r.horas)}h</td>
+    <td>${r.horas ? fmtHoras(r.horas) : '<span style="color:var(--text-muted)">—</span>'}</td>
     <td>Bs.${fmt(r.aux.valor_hora)}</td>
     <td style="font-weight:500">Bs.${fmt(r.bruto)}</td>
     <td style="color:var(--green-dark);font-weight:500">${r.empresa ? 'Bs.'+fmt(r.empresa) : '<span style="color:var(--text-muted)">—</span>'}</td>
@@ -654,8 +654,8 @@ function generarBoleta() {
   const aux = auxs.find(a => a.id === auxId);
   const regs = asis.filter(a => a.aux_id === auxId && a.fecha.startsWith(mes) && a.horas);
   const horas = regs.reduce((s,r) => s + r.horas, 0);
-  const bruto = Math.round(horas * aux.valor_hora);
-  const empresa = Math.round(bruto * 0.8);
+  const bruto = horas * aux.valor_hora;
+  const empresa = bruto * 0.8;
   const centro = bruto - empresa;
   const liquido = bruto;
   const dias = regs.length;
