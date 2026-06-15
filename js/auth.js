@@ -27,10 +27,12 @@ const AUTH = {
   },
 
   // Oculta la pantalla de login y muestra la app
-  // Oculta la pantalla de login
   showApp() {
     const overlay = document.getElementById('login-overlay');
     if (overlay) overlay.style.display = 'none';
+
+    const appLayout = document.getElementById('app-layout');
+    if (appLayout) appLayout.style.display = 'flex';
 
     const nameEl = document.getElementById('sidebar-user-name');
     const avatarEl = document.getElementById('sidebar-user-avatar');
@@ -114,6 +116,8 @@ const AUTH = {
           if (ok) {
             this.showApp();
             resolve();
+            // Navegar al dashboard tras el login para que el contenido principal sea visible
+            if (typeof navigate === 'function') navigate('dashboard');
           }
         });
       }
