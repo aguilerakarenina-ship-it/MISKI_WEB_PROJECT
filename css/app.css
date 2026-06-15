@@ -427,3 +427,35 @@ tbody tr:hover { background: var(--gray-light); }
   .two-col, .three-col, .form-row-2, .form-row-3 { grid-template-columns: 1fr; }
   .content { padding: 16px; }
 }
+/* ── Login overlay ────────────────────────────────── */
+.login-overlay {
+  position: fixed; inset: 0; z-index: 1000;
+  display: flex; align-items: center; justify-content: center;
+  background: linear-gradient(135deg, var(--green-dark), var(--green-mid));
+  padding: 20px;
+}
+.login-card {
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 10px 40px rgba(0,0,0,.18);
+  padding: 32px;
+  width: 100%;
+  max-width: 380px;
+}
+.login-brand {
+  display: flex; align-items: center; gap: 12px;
+  margin-bottom: 22px;
+}
+.login-title {
+  font-size: 18px; font-weight: 600; margin-bottom: 4px;
+}
+.login-subtitle {
+  font-size: 13px; color: var(--text-muted); margin-bottom: 20px;
+}
+.login-error {
+  background: var(--red-light); color: var(--red-mid);
+  border-radius: var(--radius); padding: 10px 12px;
+  font-size: 13px; margin-top: 4px;
+}
+.login-card .form-group { margin-bottom: 14px; }
+.login-card #login-submit:disabled { opacity: .6; cursor: not-allowed; }
