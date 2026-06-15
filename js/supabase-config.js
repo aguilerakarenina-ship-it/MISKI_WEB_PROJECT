@@ -3,7 +3,7 @@
    Settings → API → Project URL / anon public key
    ──────────────────────────────────────────────────────────── */
 const SUPABASE_URL = 'https://rwpbaumzptxlqtjvxyez.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ3cGJhdW16cHR4bHF0anZ4eWV6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE0ODE1NTIsImV4cCI6MjA5NzA1NzU1Mn0.P-E3QKmlJoOCj_8e-UTBk_Cr9XLHRRFWczMCYvdflUw';
+const SUPABASE_ANON_KEY = 'sb_publishable__emJmA38yxQtv8YjFHFkGQ_SKn_kOHl';
 
 const supabaseClient = (window.supabase && SUPABASE_URL.indexOf('TU-PROYECTO') === -1)
   ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
