@@ -596,7 +596,7 @@ function renderPagos() {
     const regs = asisM.filter(a => a.aux_id === aux.id && a.horas);
     const horas = regs.reduce((s,r) => s + (r.horas || 0), 0);
     const bruto = (horas * aux.valor_hora);
-    const empresa = bruto * 0.8;
+    const empresa = bruto * 0.6;
     const centro  = bruto - empresa;
     totalBruto   += bruto;
     totalEmpresa += empresa;
