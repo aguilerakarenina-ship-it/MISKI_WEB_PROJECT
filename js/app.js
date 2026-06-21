@@ -655,7 +655,7 @@ function generarBoleta() {
   const regs = asis.filter(a => a.aux_id === auxId && a.fecha.startsWith(mes) && a.horas);
   const horas = regs.reduce((s,r) => s + r.horas, 0);
   const bruto = horas * aux.valor_hora;
-  const empresa = bruto * 0.8;
+  const empresa = bruto * 0.6;
   const centro = bruto - empresa;
   const liquido = bruto;
   const dias = regs.length;
