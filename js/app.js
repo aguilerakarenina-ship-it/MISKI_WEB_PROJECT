@@ -1160,10 +1160,36 @@ function agruparPorAsistenteUsuario(filas) {
   });
   return Object.values(mapa).sort((a,b) => a.asistente.localeCompare(b.asistente) || a.usuario.localeCompare(b.usuario));
 }
+function poblarFiltrosInforme() {
+  const selAux = $('#informe-aux-sel');
+  const selUsu = $('#informe-usu-sel');
+  if (!selAux || !selUsu) return;
+
+  const auxValPrevio = selAux.value;
+  const usuValPrevio = selUsu.value;
+
+  const auxs = DB.get('auxiliares', []).filter(a => a.activo).sort((a,b) => a.nombre.localeCompare(b.nombre));
+  const usuarios = DB.get('usuarios', []).sort((a,b) => a.nombre.localeCompare(b.nombre));
+
+  selAux.innerHTML = '<option value="">— Todos los asistentes —</option>' +
+    auxs.map(a => `<option value="${a.id}">${esc(a.nombre)}</option>`).join('');
+
+  selUsu.innerHTML = '<option value="">— Todos los usuarios —</option>' +
+    usuarios.map(u => `<option value="${u.id}">${esc(u.nombre)}</option>`).join('') +
+    '<option value="__revibo__">Asociación REVIBO</option>';
+
+  selAux.value = auxValPrevio;
+  selUsu.value = usuValPrevio;
+}
 
 function renderInforme() {
+function renderInforme() {
+  poblarFiltrosInforme();
+
   const mes  = $('#informe-mes-sel')?.value;
   const anio = $('#informe-anio-sel')?.value;
+  const auxFiltro = $('#informe-aux-sel')?.value;
+  const usuFiltro = $('#informe-usu-sel')?.value;
 
   let filas = obtenerFilasInforme();
   if (mes && anio) {
@@ -1172,6 +1198,11 @@ function renderInforme() {
     filas = filas.filter(f => f.fecha.startsWith(anio));
   } else if (mes && !anio) {
     filas = filas.filter(f => f.fecha.slice(5,7) === mes);
+  }
+  if (auxFiltro) filas = filas.filter(f => String(f.asistente_id) === auxFiltro);
+  if (usuFiltro) {
+    if (usuFiltro === '__revibo__') filas = filas.filter(f => f.usuario_id === null);
+    else filas = filas.filter(f => String(f.usuario_id) === usuFiltro);
   }
 
   const totalHoras = filas.reduce((s,f) => s + f.horas, 0);
@@ -1265,6 +1296,8 @@ function renderInforme() {
 function exportarInformePDF() {
   const mes  = $('#informe-mes-sel')?.value;
   const anio = $('#informe-anio-sel')?.value;
+  const auxFiltro = $('#informe-aux-sel')?.value;
+  const usuFiltro = $('#informe-usu-sel')?.value;
 
   if (!mes || !anio) {
     showToast('Seleccione un mes y un año para generar el informe', 'error');
@@ -1274,6 +1307,11 @@ function exportarInformePDF() {
   let filas = obtenerFilasInforme();
   const prefijo = `${anio}-${mes}`;
   filas = filas.filter(f => f.fecha.startsWith(prefijo));
+  if (auxFiltro) filas = filas.filter(f => String(f.asistente_id) === auxFiltro);
+  if (usuFiltro) {
+    if (usuFiltro === '__revibo__') filas = filas.filter(f => f.usuario_id === null);
+    else filas = filas.filter(f => String(f.usuario_id) === usuFiltro);
+  }
 
   const nombreMes = NOMBRES_MES[mes] || mes;
 
