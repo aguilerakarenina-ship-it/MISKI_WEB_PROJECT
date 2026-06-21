@@ -670,7 +670,7 @@ function generarBoleta() {
         <div style="font-size:16px;font-weight:600">Red de Vida independiente Bolivia  </div>
         <div style="font-size:12px;opacity:.8">RECIBO DE PAGOS POR SERVICIOS DE ASISTENCIA PERSONAL</div>
         <div class="topbar-center" style="display: flex; justify-content: center; align-items: center;">
-        <img src="media/revibologo.svg" alt="Logo o Imagen" style="max-height: 55px; width: auto; object-fit: contain;">
+        <img src="media/revibologo.svg" alt="Logo o Imagen" style="max-height: 40px; width: auto; object-fit: contain;">
         </div>
       </div>
       <div style="text-align:right">
