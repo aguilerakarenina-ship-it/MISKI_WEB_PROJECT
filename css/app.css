@@ -188,7 +188,7 @@ body {
 .icon-red   svg { stroke: var(--red-mid); }
 .icon-amber { background: var(--amber-light); }
 .icon-amber svg { stroke: var(--amber-mid); }
-.icon-blue  { background: var(--blue-light); }
+.icon-blue  { background: #FDFD96; }
 .icon-blue  svg { stroke: var(--blue-mid); }
 
 /* ── Badges / Pills ───────────────────────────────── */
