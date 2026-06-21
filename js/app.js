@@ -667,7 +667,7 @@ function generarBoleta() {
   const html = `<div class="boleta-preview" id="boleta-printable">
     <div class="boleta-top">
      <div style="display: flex; align-items: center; gap: 15px;">            
-            <img src="media/revibologo.svg" alt="Logo" style="max-height: 55px; width: auto; object-fit: contain;">            
+            <img src="media/revibologo.svg" alt="Logo" style="max-height: 40px; width: auto; object-fit: contain;">            
             <div>
                 <div style="font-size:16px;font-weight:600">Red de Vida independiente Bolivia </div>
                 <div style="font-size:12px;opacity:.8">RECIBO DE PAGOS POR SERVICIOS DE ASISTENCIA PERSONAL</div>
