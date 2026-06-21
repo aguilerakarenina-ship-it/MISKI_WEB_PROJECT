@@ -662,7 +662,7 @@ function generarBoleta() {
   const mesNames = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
   const [mYear, mNum] = mes.split('-').map(Number);
   const mesNombre = mesNames[mNum - 1] + ' ' + mYear;
-  const numBoleta = String(auxId * 100 + mNum).padStart(4,'0');
+  const numBoleta = String(mNum).padStart(4,'0');
 
   const html = `<div class="boleta-preview" id="boleta-printable">
     <div class="boleta-top">
