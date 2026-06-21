@@ -3,6 +3,7 @@
 /* ── Tokens ───────────────────────────────────────── */
 :root {
   --green-dark:   #0F6E56;
+  --yelow-pastel: #FDFD96;
   --green-mid:    #1D9E75;
   --green-light:  #E1F5EE;
   --green-border: #5DCAA5;
@@ -188,7 +189,7 @@ body {
 .icon-red   svg { stroke: var(--red-mid); }
 .icon-amber { background: var(--amber-light); }
 .icon-amber svg { stroke: var(--amber-mid); }
-.icon-blue  { background: #FDFD96; }
+.icon-blue  { background: var(--yelow-pastel); }
 .icon-blue  svg { stroke: var(--blue-mid); }
 
 /* ── Badges / Pills ───────────────────────────────── */
