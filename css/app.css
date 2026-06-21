@@ -190,7 +190,7 @@ body {
 .icon-amber { background: var(--amber-light); }
 .icon-amber svg { stroke: var(--amber-mid); }
 .icon-blue  { background: var(--yelow-pastel); }
-.icon-blue  svg { stroke: var(--blue-mid); }
+.icon-blue  svg { stroke: var(--red-mid); }
 
 /* ── Badges / Pills ───────────────────────────────── */
 .badge { display: inline-block; padding: 2px 9px; border-radius: 20px; font-size: 11px; font-weight: 600; }
