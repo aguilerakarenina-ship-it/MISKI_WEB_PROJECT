@@ -672,7 +672,7 @@ function generarBoleta() {
       </div>
       <div style="text-align:right">
         <div style="font-size:11px;opacity:.7">Boleta N°</div>
-        <div style="font-size:22px;font-weight:600">${numBoleta}</div>
+        <div contenteditable="true" style="font-size:22px; font-weight:600; border-bottom: 1px dashed #999; outline: none;">${numBoleta}</div>
         <div style="font-size:12px;opacity:.75">${mesNombre}</div>
       </div>
     </div>
