@@ -1183,7 +1183,6 @@ function poblarFiltrosInforme() {
 }
 
 function renderInforme() {
-function renderInforme() {
   poblarFiltrosInforme();
 
   const mes  = $('#informe-mes-sel')?.value;
