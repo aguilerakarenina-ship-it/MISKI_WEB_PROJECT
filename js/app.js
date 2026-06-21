@@ -905,8 +905,7 @@ function renderVentas() {
   const auxs = DB.get('auxiliares', []);
   const tbody = $('#venta-tbody');
   if (!tbody) return;
-
-  const ordenadas = [...ventas].sort((a,b) => b.fecha.localeCompare(a.fecha) || b.id - a.id);
+const ordenadas = [...ventas].sort((a,b) => b.fecha.localeCompare(a.fecha) || b.id - a.id);
   tbody.innerHTML = ordenadas.map(v => {
     const usuario = usuarios.find(u => u.id === v.usuario_id);
     const aux = auxs.find(a => a.id === v.aux_id);
@@ -922,6 +921,79 @@ function renderVentas() {
       <td><button class="btn btn-sm" onclick="eliminarVenta(${v.id})" style="background:var(--red-mid);color:white;border-color:var(--red-mid)">Eliminar</button></td>
     </tr>`;
   }).join('') || `<tr><td colspan="9" style="text-align:center;color:var(--text-muted);padding:24px">Sin servicios registrados</td></tr>`;
+
+  // Resumen de totales
+  const totHoras = ventas.reduce((s,v) => s + (v.horas || 0), 0);
+  const totPago = ventas.reduce((s,v) => s + (v.pago_asistente || 0), 0);
+  const totCobro = ventas.reduce((s,v) => s + (v.cobro_usuario || 0), 0);
+  const totRetencion = ventas.reduce((s,v) => s + (v.retencion || 0), 0);
+  const resumenEl = $('#venta-resumen');
+  if (resumenEl) {
+    resumenEl.innerHTML = `
+      <div><span style="color:var(--text-muted)">Total horas</span><br><strong>${fmtHoras(totHoras)}</strong></div>
+      <div><span style="color:var(--text-muted)">Total pago asistentes</span><br><strong>Bs.${fmt(totPago)}</strong></div>
+      <div><span style="color:var(--text-muted)">Total cobrado a usuarios</span><br><strong>Bs.${fmt(totCobro)}</strong></div>
+      <div><span style="color:var(--amber-mid)">Total retención REVIBO</span><br><strong style="color:var(--amber-mid)">Bs.${fmt(totRetencion)}</strong></div>`;
+  }
+}
+function imprimirVentas() {
+  const ventas = DB.get('ventas', []);
+  const usuarios = DB.get('usuarios', []);
+  const auxs = DB.get('auxiliares', []);
+  const ordenadas = [...ventas].sort((a,b) => a.fecha.localeCompare(b.fecha));
+
+  const rows = ordenadas.map(v => {
+    const usuario = usuarios.find(u => u.id === v.usuario_id);
+    const aux = auxs.find(a => a.id === v.aux_id);
+    return `<tr>
+      <td>${v.fecha}</td>
+      <td>${usuario ? esc(usuario.nombre) : '—'}</td>
+      <td>${aux ? esc(aux.nombre) : '—'}</td>
+      <td>${v.hora_inicio} – ${v.hora_fin}</td>
+      <td>${fmtHoras(v.horas)}</td>
+      <td>Bs.${fmt(v.pago_asistente)}</td>
+      <td>Bs.${fmt(v.cobro_usuario)}</td>
+      <td>Bs.${fmt(v.retencion)}</td>
+    </tr>`;
+  }).join('');
+
+  const totHoras = ventas.reduce((s,v) => s + (v.horas || 0), 0);
+  const totPago = ventas.reduce((s,v) => s + (v.pago_asistente || 0), 0);
+  const totCobro = ventas.reduce((s,v) => s + (v.cobro_usuario || 0), 0);
+  const totRetencion = ventas.reduce((s,v) => s + (v.retencion || 0), 0);
+
+  const win = window.open('', '_blank');
+  win.document.write(`<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8">
+    <title>Informe de Venta de Servicios — REVIBO</title>
+    <style>
+      @page { size: A4; margin: 16mm; }
+      body { font-family: 'IBM Plex Sans', Arial, sans-serif; color:#2C2C2A; }
+      h1 { font-size: 18px; margin-bottom: 4px; }
+      h2 { font-size: 13px; font-weight:400; color:#5F5E5A; margin-bottom: 18px; }
+      table { width:100%; border-collapse: collapse; font-size: 12px; margin-bottom: 20px; }
+      th, td { border: 1px solid #D3D1C7; padding: 6px 8px; text-align: left; }
+      th { background:#E1F5EE; color:#0F6E56; text-transform: uppercase; font-size: 10px; letter-spacing:.04em; }
+      tr:nth-child(even) td { background:#FAFAF8; }
+      .resumen { display:flex; gap:28px; font-size:13px; }
+      .resumen div span { display:block; color:#5F5E5A; font-size:11px; margin-bottom:2px; }
+      .resumen div strong { font-size:15px; }
+    </style></head><body>
+    <h1>Venta de Servicios de Asistencia Personal — REVIBO</h1>
+    <h2>Informe generado el ${new Date().toLocaleDateString('es-CL', { day:'2-digit', month:'long', year:'numeric' })}</h2>
+    <table>
+      <thead><tr><th>Fecha</th><th>Usuario</th><th>Asistente</th><th>Horario</th><th>Horas</th><th>Pago asistente</th><th>Cobro usuario</th><th>Retención</th></tr></thead>
+      <tbody>${rows || '<tr><td colspan="8" style="text-align:center;color:#5F5E5A">Sin servicios registrados</td></tr>'}</tbody>
+    </table>
+    <div class="resumen">
+      <div><span>Total horas</span><strong>${fmtHoras(totHoras)}</strong></div>
+      <div><span>Total pago asistentes</span><strong>Bs.${fmt(totPago)}</strong></div>
+      <div><span>Total cobrado a usuarios</span><strong>Bs.${fmt(totCobro)}</strong></div>
+      <div><span>Total retención REVIBO</span><strong>Bs.${fmt(totRetencion)}</strong></div>
+    </div>
+    </body></html>`);
+  win.document.close();
+  win.focus();
+  setTimeout(() => win.print(), 300);
 }
 
 function calcularPreviewVenta() {
