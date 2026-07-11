@@ -259,8 +259,13 @@ function renderAsistencia() {
       }).join('');
   }
 
+// Inicializar fecha con hoy si está vacía
+  const fechaEl = $('#asis-fecha');
+  if (fechaEl && !fechaEl.value) fechaEl.value = today();
+
   // Populate select de usuarios asociados
   const selUsu = $('#asis-usuario-select');
+
   if (selUsu) {
     const usuarios = DB.get('usuarios', []).filter(u => u.tipo === 'asociado');
     const cur = selUsu.value;
@@ -334,18 +339,19 @@ function registrarAsistencia() {
   const auxId = parseInt(sel.value);
   const tipoVal = tipo ? tipo.value : 'entrada';
   const hora = horaEl ? horaEl.value : new Date().toTimeString().slice(0,5);
+  const fechaInput = $('#asis-fecha');
+  const fechaRegistro = (fechaInput && fechaInput.value) ? fechaInput.value : today();
   const usuarioId = selUsu && selUsu.value ? parseInt(selUsu.value) : null;
   const auxs = DB.get('auxiliares', []);
   const aux = auxs.find(a => a.id === auxId);
   const asis = DB.get('asistencia', []);
-  const hoyStr = today();
-  const reg = asis.find(a => a.aux_id === auxId && a.fecha === hoyStr);
+  const reg = asis.find(a => a.aux_id === auxId && a.fecha === fechaRegistro);
 
   if (tipoVal === 'entrada') {
     if (reg && reg.entrada) { showToast('Ya existe entrada registrada', 'error'); return; }
     if (!usuarioId) { showToast('Selecciona el Usuario Asociado al que se brinda el servicio', 'error'); return; }
     if (reg) { reg.entrada = hora; reg.usuario_id = usuarioId; }
-    else { asis.push({ id: Date.now(), aux_id: auxId, fecha: hoyStr, entrada: hora, salida: null, horas: null, usuario_id: usuarioId }); }
+    else { asis.push({ id: Date.now(), aux_id: auxId, fecha: fechaRegistro, entrada: hora, salida: null, horas: null, usuario_id: usuarioId }); }
     DB.set('asistencia', asis);
     showToast(`Entrada registrada para ${aux.nombre} a las ${hora}`, 'success');
   } else {
@@ -358,8 +364,7 @@ function registrarAsistencia() {
     DB.set('asistencia', asis);
     showToast(`Salida registrada · ${fmtHoras(horas)} trabajadas`, 'success');
   }
-
-  renderAsistenciaTabla(hoyStr);
+  renderAsistenciaTabla(fechaRegistro);
   renderDashboard();
 }
 
