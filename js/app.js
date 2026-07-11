@@ -180,7 +180,15 @@ function horasDesdeEntrada(entrada) {
 function avatarClass(aux) {
   return { green:'avatar-green', amber:'avatar-amber', red:'avatar-red', blue:'avatar-blue' }[aux.color] || 'avatar-green';
 }
-
+function actualizarLabelFechaAsis(fechaVal) {
+  const lbl = document.getElementById('asis-fecha-label');
+  if (!lbl) return;
+  if (!fechaVal) { lbl.textContent = ''; return; }
+  const [y, m, d] = fechaVal.split('-').map(Number);
+  const dt = new Date(y, m - 1, d);
+  lbl.textContent = dt.toLocaleDateString('es-CL', { weekday:'long', day:'numeric', month:'long' });
+  renderAsistenciaTabla(fechaVal);
+}
 // ── DASHBOARD ──────────────────────────────────────
 function renderDashboard() {
   const asis = DB.get('asistencia', []);
@@ -373,14 +381,15 @@ function registrarEntradaDirecta(auxId) {
   const usuarioId = selUsu && selUsu.value ? parseInt(selUsu.value) : null;
   if (!usuarioId) { showToast('Selecciona primero el Usuario Asociado en el formulario', 'error'); return; }
   const hora = new Date().toTimeString().slice(0,5);
+  const fechaInput = $('#asis-fecha');
+  const fechaRegistro = (fechaInput && fechaInput.value) ? fechaInput.value : today();
   const asis = DB.get('asistencia', []);
-  const hoyStr = today();
   const auxs = DB.get('auxiliares', []);
   const aux = auxs.find(a => a.id === auxId);
-  asis.push({ id: Date.now(), aux_id: auxId, fecha: hoyStr, entrada: hora, salida: null, horas: null, usuario_id: usuarioId });
+  asis.push({ id: Date.now(), aux_id: auxId, fecha: fechaRegistro, entrada: hora, salida: null, horas: null, usuario_id: usuarioId });
   DB.set('asistencia', asis);
   showToast(`Entrada registrada para ${aux.nombre}`, 'success');
-  renderAsistenciaTabla(hoyStr);
+  renderAsistenciaTabla(fechaRegistro);
 }
 
 function registrarSalida(auxId) {
